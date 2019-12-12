@@ -29,6 +29,13 @@ RUN ( \
         chmod a+x /usr/local/bin/stern \
     )
 
+RUN (\
+        set -x; cd "$(mktemp -d)" && \
+        curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"  \
+            | bash && \
+        mv kustomize /usr/local/bin/ \
+    )
+
 COPY 99-k8s-extras.sh /etc/profile.d/99-k8s-extras.sh
 
 RUN addgroup --gid 1000 cicd && adduser --shell /bin/bash --uid 1000 --gid 1000 --gecos '' --disabled-password cicd
